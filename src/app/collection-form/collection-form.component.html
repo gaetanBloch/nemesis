@@ -1,0 +1,9 @@
+<main>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <p>
+      <label for="file">Collection: </label>
+      <input id="file" formControlName="collection" type="file" required>
+    </p>
+    <p><button type="submit" [disabled]="!form.valid">Submit</button></p>
+  </form>
+</main>
