@@ -1,9 +1,22 @@
 <main>
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-toolbar color="primary">
+    <span>
+      <span class="logo"><mat-icon>public</mat-icon></span>
+      <span class="title">Postman Nemesis Tester</span>
+    </span>
+    <span class="author"><mat-icon style="font-size: inherit;width: 1.25em">copyright</mat-icon>GBloch</span>
+  </mat-toolbar>
+  <form (ngSubmit)="onSubmit()" [formGroup]="form">
     <p>
-      <label for="file">Collection: </label>
-      <input id="file" formControlName="collection" type="file" required>
+      <app-file-uploader [multiple]="true" title="Collections"></app-file-uploader>
     </p>
-    <p><button type="submit" [disabled]="!form.valid">Submit</button></p>
+    <p>
+      <app-file-uploader title="Environment"></app-file-uploader>
+    </p>
+    <p class="button-container">
+      <button [disabled]="!form.valid" mat-raised-button type="submit">
+        Submit
+      </button>
+    </p>
   </form>
 </main>

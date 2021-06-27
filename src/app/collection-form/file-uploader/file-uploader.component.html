@@ -1,0 +1,31 @@
+<div class="container">
+  <mat-card>
+    <mat-card-title>{{title}}</mat-card-title>
+    <mat-card-content>
+      <ul>
+        <li *ngFor="let file of files">
+          <mat-progress-bar
+            [value]="file.progress"
+            mode="determinate"></mat-progress-bar>
+          <span id="file-label">{{file.name}} | {{file.progress}}%</span>
+        </li>
+      </ul>
+    </mat-card-content>
+    <mat-card-actions>
+      <button (click)="onClick()"
+              [disabled]="!multiple && files.length === 1"
+              color="primary"
+              mat-button>
+        <mat-icon>file_upload</mat-icon>
+        Upload
+      </button>
+    </mat-card-actions>
+  </mat-card>
+  <input #fileUpload
+         [multiple]="multiple"
+         accept="application/json"
+         id="fileUpload"
+         name="fileUpload"
+         style="display:none;"
+         type="file"/>
+</div>

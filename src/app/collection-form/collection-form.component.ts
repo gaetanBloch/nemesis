@@ -11,7 +11,8 @@ export class CollectionFormComponent implements OnInit {
     collection: new FormControl('')
   });
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

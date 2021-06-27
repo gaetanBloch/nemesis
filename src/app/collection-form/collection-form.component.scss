@@ -1,0 +1,28 @@
+mat-toolbar {
+  display: grid;
+  grid: auto-flow / 1fr auto;
+  margin-bottom: 1.5em;
+}
+
+.logo {
+  margin-right: 0.5em;
+  vertical-align: center;
+}
+
+.title {
+  vertical-align: text-bottom;
+}
+
+.author {
+  font-size: 0.75em;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.button-container {
+  margin-top: 2em;
+}
