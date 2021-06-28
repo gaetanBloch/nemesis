@@ -4,6 +4,11 @@ mat-toolbar {
   margin-bottom: 1.5em;
 }
 
+mat-progress-bar {
+  margin-top: 1em;
+  width: 75vw;
+}
+
 .logo {
   margin-right: 0.5em;
   vertical-align: center;
@@ -17,7 +22,7 @@ mat-toolbar {
   font-size: 0.75em;
 }
 
-form {
+.container {
   display: flex;
   align-items: center;
   flex-direction: column;

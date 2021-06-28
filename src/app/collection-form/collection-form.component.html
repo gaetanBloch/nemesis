@@ -1,22 +1,39 @@
-<main>
-  <mat-toolbar color="primary">
+<mat-toolbar color="primary">
     <span>
       <span class="logo"><mat-icon>public</mat-icon></span>
       <span class="title">Postman Nemesis Tester</span>
     </span>
-    <span class="author"><mat-icon style="font-size: inherit;width: 1.25em">copyright</mat-icon>GBloch</span>
-  </mat-toolbar>
-  <form (ngSubmit)="onSubmit()" [formGroup]="form">
-    <p>
-      <app-file-uploader [multiple]="true" title="Collections"></app-file-uploader>
-    </p>
-    <p>
-      <app-file-uploader title="Environment"></app-file-uploader>
-    </p>
-    <p class="button-container">
-      <button [disabled]="!form.valid" mat-raised-button type="submit">
-        Submit
-      </button>
-    </p>
-  </form>
+  <span class="author">
+      <mat-icon style="font-size: inherit;width: 1.25em">copyright</mat-icon>
+      GBloch
+    </span>
+</mat-toolbar>
+<main class="container">
+  <p>
+    <app-file-uploader
+      (filesUploaded)="onCollectionsUploaded($event)"
+      [multiple]="true"
+      title="Collections - Max 100 files">
+    </app-file-uploader>
+  </p>
+  <p>
+    <app-file-uploader
+      (filesUploaded)="onEnvironmentUploaded($event)"
+      title="Environment - Only 1 file">
+    </app-file-uploader>
+  </p>
+  <mat-progress-bar
+    [value]="progress"
+    color="warn"
+    mode="determinate"></mat-progress-bar>
+  <p class="button-container">
+    <button (click)="onUpload()"
+            [disabled]="collections.length === 0 || environment.length === 0"
+            color="warn"
+            mat-raised-button
+            type="submit">
+      <mat-icon>file_upload</mat-icon>
+      Upload
+    </button>
+  </p>
 </main>

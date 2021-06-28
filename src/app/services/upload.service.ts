@@ -6,7 +6,7 @@ import { Observable } from "rxjs";
   providedIn: 'root'
 })
 export class UploadService {
-  private readonly endpoint = 'https://www.file.io/'
+  private readonly endpoint = 'http://localhost:3000/upload-collections'
 
   constructor(private httpClient: HttpClient) {
   }

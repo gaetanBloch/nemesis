@@ -1,10 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { UploadService } from "../../services/upload.service";
-import { HttpErrorResponse, HttpEventType } from "@angular/common/http";
-import { of } from "rxjs";
-import { catchError, map } from "rxjs/operators";
-
-type FileInfo = { name: string, data: File, inProgress: boolean, progress: number };
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-file-uploader',
@@ -16,10 +10,9 @@ export class FileUploaderComponent {
   @ViewChild('fileUpload', { static: false }) fileUpload?: ElementRef;
   @Input() title = '';
   @Input() multiple = false;
-  files: FileInfo[] = [];
-
-  constructor(private uploadService: UploadService) {
-  }
+  @Output() filesUploaded = new EventEmitter<File[]>()
+  files: File[] = [];
+  fileNames: string[] = [];
 
   onClick(): void {
     const fileUpload: HTMLInputElement = this.fileUpload?.nativeElement;
@@ -27,51 +20,20 @@ export class FileUploaderComponent {
       if (fileUpload.files === null) return;
       for (let index = 0; index < fileUpload.files.length; index++) { //NOSONAR
         const file = fileUpload.files[index];
-        this.files.push({
-          name: file.name,
-          data: file,
-          inProgress: false,
-          progress: 0
-        });
+        this.files.push(file);
+        this.fileNames.push(file.name);
       }
-      this.uploadFiles();
+      this.emitFiles();
     };
+    // Clear the file input cache
     fileUpload.click();
   }
 
-  private uploadFiles(): void {
+  private emitFiles(): void {
     if (!this.fileUpload) return;
     this.fileUpload.nativeElement.value = '';
-    this.files.forEach(file => {
-      this.uploadFile(file);
-    });
-  }
-
-  private uploadFile(file: FileInfo): void {
-    const formData = new FormData();
-    formData.append('file', file.data);
-    file.inProgress = true;
-    this.uploadService.upload(formData).pipe(
-      // @ts-ignore Not all event types are treated
-      map(event => {
-        switch (event.type) {
-          case HttpEventType.UploadProgress:
-            file.progress = Math.round(
-              event.loaded * 100 / (event.total ?? 1)
-            );
-            break;
-          case HttpEventType.Sent:
-            return event;
-        }
-      }),
-      catchError((error: HttpErrorResponse) => {
-        file.inProgress = false;
-        return of(`${ file.data.name } upload failed. Error: ${ error.message }`);
-      }))
-      .subscribe((event: any) => {
-        if (typeof (event) === 'object') {
-          console.log(event.body);
-        }
-      });
+    this.filesUploaded.emit(this.files);
+    // Empty array
+    this.files.splice(0, this.files.length);
   }
 }
