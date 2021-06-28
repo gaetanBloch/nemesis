@@ -14,7 +14,8 @@ export class UploadService {
   public upload(formData: FormData): Observable<HttpEvent<any>> {
     return this.httpClient.post<any>(this.endpoint, formData, {
       reportProgress: true,
-      observe: 'events'
+      observe: 'events',
+      responseType: 'json'
     });
   }
 }

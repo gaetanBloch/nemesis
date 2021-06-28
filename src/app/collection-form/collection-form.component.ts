@@ -33,7 +33,7 @@ export class CollectionFormComponent {
               event.loaded * 100 / (event.total ?? 1)
             );
             break;
-          case HttpEventType.Sent:
+          case HttpEventType.Response:
             return event;
         }
       }),
@@ -44,6 +44,8 @@ export class CollectionFormComponent {
       .subscribe((event: any) => {
         if (typeof (event) === 'object') {
           console.log(event.body);
+          // @ts-ignore
+          document.querySelector('.html').innerHTML = event.body.report;
         }
       });
   }
