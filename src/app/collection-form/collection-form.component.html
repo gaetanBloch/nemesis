@@ -8,7 +8,7 @@
       GBloch
     </span>
 </mat-toolbar>
-<main class="container">
+<main class="main-container">
   <p>
     <app-file-uploader
       (filesUploaded)="onCollectionsUploaded($event)"
@@ -24,17 +24,22 @@
   </p>
   <mat-progress-bar
     [value]="progress"
-    color="warn"
+    color="primary"
     mode="determinate"></mat-progress-bar>
   <p class="button-container">
     <button (click)="onUpload()"
             [disabled]="collections.length === 0 || environment.length === 0"
-            color="warn"
+            color="primary"
             mat-raised-button
             type="submit">
       <mat-icon>file_upload</mat-icon>
       Upload
     </button>
   </p>
+  <div class="upload" *ngIf="spin">{{progress}}% Uploaded</div>
+  <div class="generating" *ngIf="spin">Generating report...</div>
+  <div class="spinner" *ngIf="spin">
+    <mat-spinner color="primary"></mat-spinner>
+  </div>
   <div class="html"></div>
 </main>

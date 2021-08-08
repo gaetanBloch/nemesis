@@ -3,7 +3,8 @@ import { catchError, map } from "rxjs/operators";
 import { HttpErrorResponse, HttpEventType } from "@angular/common/http";
 import { of } from "rxjs";
 import { UploadService } from "../services/upload.service";
-import { FormGroup } from "@angular/forms";
+
+declare function loadReport(): any;
 
 @Component({
   selector: 'app-collection-form',
@@ -11,10 +12,10 @@ import { FormGroup } from "@angular/forms";
   styleUrls: ['./collection-form.component.scss']
 })
 export class CollectionFormComponent {
-  form = new FormGroup({});
   progress = 0;
   collections: File[] = [];
   environment: File[] = [];
+  spin = false;
 
   constructor(private uploadService: UploadService) {
   }
@@ -23,6 +24,8 @@ export class CollectionFormComponent {
     const formData = new FormData();
     this.collections.forEach(col => formData.append('collections', col));
     formData.append('environment', this.environment[0])
+
+    this.spin = true;
 
     this.uploadService.upload(formData).pipe(
       // @ts-ignore Not all event types are treated
@@ -43,9 +46,10 @@ export class CollectionFormComponent {
       }))
       .subscribe((event: any) => {
         if (typeof (event) === 'object') {
-          console.log(event.body);
+          this.spin = false;
           // @ts-ignore
           document.querySelector('.html').innerHTML = event.body.report;
+          loadReport();
         }
       });
   }
