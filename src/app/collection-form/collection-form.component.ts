@@ -22,7 +22,7 @@ export class CollectionFormComponent {
 
   onUpload(): void {
     const formData = new FormData();
-    this.collections.forEach(col => formData.append('collections', col));
+    this.collections.forEach(col => formData.append('collection', col));
     formData.append('environment', this.environment[0])
 
     this.spin = true;

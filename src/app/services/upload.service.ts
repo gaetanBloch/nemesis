@@ -6,7 +6,7 @@ import { Observable } from "rxjs";
   providedIn: 'root'
 })
 export class UploadService {
-  private readonly endpoint = 'http://localhost:3000/upload-collections'
+  private readonly endpoint = 'http://localhost:3000/api/v1/test/files?details=true'
 
   constructor(private httpClient: HttpClient) {
   }
